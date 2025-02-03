@@ -1,14 +1,15 @@
 {
   "name": "be-gilbertosilva.dev",
   "version": "1.0.0",
-  "main": "index.js",
-  "type": "module",
+  "main": "src/server.ts",
   "scripts": {
-    "start": "ts-node src/app.ts",
+    "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "format": "prettier --write src/**/*.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -20,9 +21,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^1.4.5-lts.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.7.3"
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
@@ -38,6 +37,8 @@
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
     "prettier": "3.4.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.3",
     "typescript-eslint": "^8.22.0"
   },
   "lint-staged": {
