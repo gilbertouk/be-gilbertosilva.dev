@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import { getRepository } from "typeorm";
+// import { getRepository } from "typeorm";
 import { Project } from "../models/Project";
 import { Tag } from "../models/Tag";
+import { AppDataSource } from "../data-source";
 
 export class ProjectController {
   async getAllProjects(req: Request, res: Response) {
-    const projectRepository = getRepository(Project);
+    const projectRepository = AppDataSource.getRepository(Project);
     const projects = await projectRepository.find({ relations: ["tags"] });
     res.json(projects);
   }
@@ -14,8 +15,8 @@ export class ProjectController {
     const { title, repoUrl, serviceUrl, isBackend, tags } = req.body;
     const imageUrl = req.file ? req.file.filename : "";
 
-    const projectRepository = getRepository(Project);
-    const tagRepository = getRepository(Tag);
+    const projectRepository = AppDataSource.getRepository(Project);
+    const tagRepository = AppDataSource.getRepository(Tag);
 
     const tagEntities = await Promise.all(
       tags.map(async (tagName: string) => {
