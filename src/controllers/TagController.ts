@@ -1,17 +1,18 @@
 import { Request, Response } from "express";
-import { getRepository } from "typeorm";
+// import { getRepository } from "typeorm";
 import { Tag } from "../models/Tag";
+import { AppDataSource } from "../data-source";
 
 export class TagController {
   async getAllTags(req: Request, res: Response) {
-    const tagRepository = getRepository(Tag);
+    const tagRepository = AppDataSource.getRepository(Tag);
     const tags = await tagRepository.find();
     res.json(tags);
   }
 
   async createTag(req: Request, res: Response) {
     const { name } = req.body;
-    const tagRepository = getRepository(Tag);
+    const tagRepository = AppDataSource.getRepository(Tag);
 
     const tag = tagRepository.create({ name });
     await tagRepository.save(tag);
@@ -21,7 +22,7 @@ export class TagController {
   async updateTag(req: Request, res: Response) {
     const { id } = req.params;
     const { name } = req.body;
-    const tagRepository = getRepository(Tag);
+    const tagRepository = AppDataSource.getRepository(Tag);
 
     const tag = await tagRepository.findOne(id);
     if (!tag) {
