@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 
 import projectRoutes from "./routes/projectRoutes";
 import tagRoutes from "./routes/tagRoutes";
+import userRoutes from "./routes/userRoutes";
 
 dotenv.config();
 
@@ -18,5 +19,6 @@ app.get("/", (_req: Request, res: Response) => {
 
 app.use("/api", projectRoutes);
 app.use("/api", tagRoutes);
+app.use("/api", userRoutes);
 
 export { app };
