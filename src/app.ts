@@ -1,12 +1,20 @@
 import express, { Express, Response, Request } from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+import "dotenv/config";
+import { AppDataSource } from "./data-source";
 
 import projectRoutes from "./routes/projectRoutes";
 import tagRoutes from "./routes/tagRoutes";
 import userRoutes from "./routes/userRoutes";
 
-dotenv.config();
+AppDataSource.initialize()
+  .then(() => {
+    console.log("Database connection has been established successfully.");
+  })
+  .catch((err) => {
+    console.error("Error connecting to the database: ", err);
+    process.exit(1);
+  });
 
 const app: Express = express();
 
