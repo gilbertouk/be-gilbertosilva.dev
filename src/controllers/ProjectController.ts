@@ -12,11 +12,13 @@ export class ProjectController {
   }
 
   async createProject(req: Request, res: Response) {
-    const { title, repoUrl, serviceUrl, isBackend, tags } = req.body;
+    const body = req.body.project;
+    const { title, repoUrl, serviceUrl, isBackend, tags } = JSON.parse(body);
     const imageUrl = req.file ? req.file.filename : "";
 
     const projectRepository = AppDataSource.getRepository(Project);
     const tagRepository = AppDataSource.getRepository(Tag);
+    console.log(title, repoUrl, serviceUrl, isBackend, tags);
 
     const tagEntities = await Promise.all(
       tags.map(async (tagName: string) => {
