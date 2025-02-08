@@ -18,7 +18,6 @@ export class ProjectController {
 
     const projectRepository = AppDataSource.getRepository(Project);
     const tagRepository = AppDataSource.getRepository(Tag);
-    console.log(title, repoUrl, serviceUrl, isBackend, tags);
 
     const tagEntities = await Promise.all(
       tags.map(async (tagName: string) => {

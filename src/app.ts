@@ -1,5 +1,6 @@
-import express, { Express, Response, Request } from "express";
+import express, { Express, Response, Request, NextFunction } from "express";
 import cors from "cors";
+import multer from "multer";
 import "dotenv/config";
 import { AppDataSource } from "./data-source";
 
@@ -28,5 +29,29 @@ app.get("/", (_req: Request, res: Response) => {
 app.use("/api", projectRoutes);
 app.use("/api", tagRoutes);
 app.use("/api", userRoutes);
+
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  if (err instanceof multer.MulterError) {
+    let message = "File upload error.";
+
+    if (err.code === "LIMIT_FILE_SIZE") {
+      message = "The file exceeds the 4MB limit.";
+    } else if (err.code === "LIMIT_FILE_COUNT") {
+      message = "You can only upload a limited number of files.";
+    }
+
+    res.status(400).json({ message });
+    return;
+  }
+
+  if (err?.message === "Just images are allowed!") {
+    res.status(400).json({ message: err.message });
+    return;
+  }
+
+  console.error(err);
+  res.status(500).json({ message: "Internal server error!" });
+  return;
+});
 
 export { app };
